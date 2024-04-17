@@ -40,7 +40,7 @@ def url_exists(url) -> bool:
     import requests as _requests
     ReqConErr = _requests.exceptions.ConnectionError
     try:
-        request = _requests.get(url)
+        request = _requests.get(url, timeout=60)
     except ReqConErr:
         raise ConnectionError('No internet connection') from None
     #print(response.status_code < 400)
@@ -74,7 +74,7 @@ def url_links(URL) -> list:
     _ReqConErr = _requests.exceptions.ConnectionError
     try:
         from bs4 import BeautifulSoup
-        soup= BeautifulSoup(_requests.get(URL).text,features="lxml")
+        soup= BeautifulSoup(_requests.get(URL, timeout=60).text,features="lxml")
         links= []
         for link in soup.find_all('a'):
             links.append(link.get('href'))
@@ -119,13 +119,13 @@ def open_browser(url, new_tab=True):
 def get(url, **kwargs):
     """Sends GET https request to given url and returns the Response object"""
     import requests
-    return requests.get(url, **kwargs)
+    return requests.get(url, **kwargs, timeout=60)
 
 
 def post(url, **kwargs):
     """Sends GET https request to given url and returns the Response object"""
     import requests
-    return requests.post(url, **kwargs)
+    return requests.post(url, **kwargs, timeout=60)
 
 
 """

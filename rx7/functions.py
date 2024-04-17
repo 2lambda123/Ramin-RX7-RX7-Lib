@@ -195,7 +195,7 @@ def download(url:str, filename:str="auto", save_memory:bool=True,
     if save_memory:
         if progressbar:
             with open(filename, "wb") as f:
-                response = _requests.get(url, stream=True)
+                response = _requests.get(url, stream=True, timeout=60)
                 total_length = response.headers.get('content-length')
                 if total_length is None:
                     f.write(response.content)
@@ -214,7 +214,7 @@ def download(url:str, filename:str="auto", save_memory:bool=True,
                         _sys.stdout.flush()
         else:
             with open(filename, "wb") as f:
-                response = _requests.get(url, stream=True)
+                response = _requests.get(url, stream=True, timeout=60)
                 for data in response.iter_content(chunk_size=4096):
                     f.write(data)
     else:
