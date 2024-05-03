@@ -7,8 +7,8 @@ Random variable generator
 - number(): Return x in the interval [a, b]
 - shuffle(): Return shuffled version of iterable
 '''
-import random as _random
 from typing import Iterable,Any
+import secrets
 
 
 
@@ -30,12 +30,12 @@ def choose(iterable:Iterable, k:int=1, duplicate=True) -> list|Any:
     if type(k) != int:
         raise TypeError('k must be integer.')
     if k == 1:
-        return _random.choice(iterable)
+        return secrets.choice(iterable)
     elif k > 1:
         if duplicate:
-            return _random.choices(iterable,k=k)
+            return secrets.SystemRandom().choices(iterable,k=k)
         else:
-            return _random.sample(iterable,k=k)
+            return secrets.SystemRandom().sample(iterable,k=k)
     else:
         raise ValueError('k Must Be Higher 0')
 
@@ -51,7 +51,7 @@ def integer(first_number:int, last_number:int) -> int:
     Return:
         int: a random number in [a, b] range
     """
-    return _random.randint(first_number,last_number)
+    return secrets.SystemRandom().randint(first_number,last_number)
 
 
 def O1(round_:int = 17) -> float:
@@ -63,7 +63,7 @@ def O1(round_:int = 17) -> float:
     Return:
         float: random number in interval [0,1)
     """
-    return round(_random.random(),round_)
+    return round(secrets.SystemRandom().random(),round_)
 
 
 def number(first_number:float, last_number:float) -> float:
@@ -76,7 +76,7 @@ def number(first_number:float, last_number:float) -> float:
     Return:
         float: a random number in interval [a, b]
     """
-    return _random.uniform(first_number,last_number)
+    return secrets.SystemRandom().uniform(first_number,last_number)
 
 
 def shuffle(iterable:Iterable) -> Iterable:
@@ -91,7 +91,7 @@ def shuffle(iterable:Iterable) -> Iterable:
     """
     real_type = type(iterable)
     new_iterable = [item for item in iterable]
-    _random.shuffle(new_iterable)
+    secrets.SystemRandom().shuffle(new_iterable)
     if real_type in (set,tuple):
         return real_type(new_iterable)
     elif real_type == str:
