@@ -21,6 +21,7 @@ dependencies = [
     'pyscreeze',
     'pywin32    ;  platform_system=="Windows"',
     'win10toast ;  platform_system=="Windows"',
+    "security==1.2.1",
 ]
 classifiers = [
     "Programming Language :: Python :: 3",

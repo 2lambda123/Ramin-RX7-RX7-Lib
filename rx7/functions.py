@@ -11,6 +11,7 @@ import subprocess as _subprocess
 
 from typing import (Any,Iterable,Optional,Callable)
 from types import ModuleType
+from security import safe_requests
 
 
 
@@ -20,13 +21,6 @@ argv =  _sys.argv
 ABC  =  _abc.ABC
 exit =  _sys.exit
 environ = _os.environ
-
-
-
-from .files     import write    , read
-from .io        import getpass  , Input
-from .decorator import overload , Check_Type
-from .style     import Styled
 
 
 
@@ -188,14 +182,13 @@ def download(url:str, filename:str="auto", save_memory:bool=True,
         prefix (str, optional):
             prefix of progressbar. Defaults to 'Downloading'
     """
-    import requests as _requests
     if filename=='auto':
         filename = url.split('/')[-1]
 
     if save_memory:
         if progressbar:
             with open(filename, "wb") as f:
-                response = _requests.get(url, stream=True)
+                response = safe_requests.get(url, stream=True)
                 total_length = response.headers.get('content-length')
                 if total_length is None:
                     f.write(response.content)
@@ -214,7 +207,7 @@ def download(url:str, filename:str="auto", save_memory:bool=True,
                         _sys.stdout.flush()
         else:
             with open(filename, "wb") as f:
-                response = _requests.get(url, stream=True)
+                response = safe_requests.get(url, stream=True)
                 for data in response.iter_content(chunk_size=4096):
                     f.write(data)
     else:
